@@ -1,18 +1,18 @@
 -- V1__init_schema.sql
 
 CREATE TABLE roles (
-    id SERIAL PRIMARY KEY,
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(50) UNIQUE NOT NULL
 );
 
 CREATE TABLE privileges (
-    id SERIAL PRIMARY KEY,
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(50) UNIQUE NOT NULL
 );
 
 CREATE TABLE role_privileges (
-    role_id INT NOT NULL,
-    privilege_id INT NOT NULL,
+    role_id BIGINT NOT NULL,
+    privilege_id BIGINT NOT NULL,
     PRIMARY KEY (role_id, privilege_id),
     FOREIGN KEY (role_id) REFERENCES roles(id),
     FOREIGN KEY (privilege_id) REFERENCES privileges(id)
@@ -30,7 +30,7 @@ CREATE TABLE users (
 
 CREATE TABLE user_roles (
     user_id UUID NOT NULL,
-    role_id INT NOT NULL,
+    role_id BIGINT NOT NULL,
     PRIMARY KEY (user_id, role_id),
     FOREIGN KEY (user_id) REFERENCES users(id),
     FOREIGN KEY (role_id) REFERENCES roles(id)
