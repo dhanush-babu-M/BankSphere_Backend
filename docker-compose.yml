@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  banksphere-db:
+    image: mysql:8.0
+    container_name: banksphere-db
+    environment:
+      MYSQL_DATABASE: banksphere_dev
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-proot"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  banksphere-backend:
+    build: .
+    container_name: banksphere-backend
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://banksphere-db:3306/banksphere_dev?useSSL=false&serverTimezone=Asia/Kolkata&allowPublicKeyRetrieval=true
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=root
+    depends_on:
+      banksphere-db:
+        condition: service_healthy
+
+volumes:
+  mysql_data:

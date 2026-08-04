@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body { font-family: Arial, sans-serif; font-size: 12px; }
+        .header { text-align: center; border-bottom: 2px solid #0056b3; margin-bottom: 20px; padding-bottom: 10px; }
+        .header h1 { color: #0056b3; margin: 0; }
+        .account-details { width: 100%; margin-bottom: 20px; border-collapse: collapse; }
+        .account-details td { padding: 5px; }
+        .table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+        .table th, .table td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        .table th { background-color: #0056b3; color: white; }
+        .summary { margin-top: 20px; text-align: right; font-weight: bold; }
+        .footer { text-align: center; margin-top: 50px; font-size: 10px; color: #888; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>BankSphere Account Statement</h1>
+        <p>Statement Period: <span th:text="${periodStart}">01-Jan-2026</span> to <span th:text="${periodEnd}">31-Jan-2026</span></p>
+    </div>
+    
+    <table class="account-details">
+        <tr>
+            <td><strong>Name:</strong> <span th:text="${customerName}">John Doe</span></td>
+            <td><strong>Account Number:</strong> <span th:text="${accountNumber}">123456789</span></td>
+        </tr>
+        <tr>
+            <td><strong>Address:</strong> <span th:text="${address}">123 Main St</span></td>
+            <td><strong>Branch:</strong> <span th:text="${branchName}">Main Branch</span></td>
+        </tr>
+    </table>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Description</th>
+                <th>Reference Number</th>
+                <th>Debit</th>
+                <th>Credit</th>
+                <th>Balance</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="txn : ${transactions}">
+                <td th:text="${txn.date}">2026-01-05</td>
+                <td th:text="${txn.description}">ATM Withdrawal</td>
+                <td th:text="${txn.referenceNumber}">REF123</td>
+                <td th:text="${txn.debit}">0.00</td>
+                <td th:text="${txn.credit}">0.00</td>
+                <td th:text="${txn.balance}">1000.00</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="summary">
+        <p>Closing Balance: <span th:text="${closingBalance}">$1,000.00</span></p>
+    </div>
+
+    <div class="footer">
+        <p>This is a computer-generated statement and does not require a signature.</p>
+    </div>
+</body>
+</html>
