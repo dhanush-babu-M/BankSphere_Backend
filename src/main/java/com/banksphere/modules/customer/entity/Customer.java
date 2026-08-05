@@ -41,6 +41,7 @@ public class Customer {
     @Column(name = "gender")
     private String gender;
 
+    @Builder.Default
     @Column(name = "nationality")
     private String nationality = "INDIAN";
 
@@ -56,6 +57,7 @@ public class Customer {
     @Column(name = "aadhar_number", unique = true)
     private String aadharNumber;
 
+    @Builder.Default
     @Column(name = "kyc_status")
     private String kycStatus = "PENDING";
 

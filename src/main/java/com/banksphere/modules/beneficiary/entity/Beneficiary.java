@@ -40,9 +40,11 @@ public class Beneficiary {
     @Column(name = "nickname")
     private String nickname;
 
+    @Builder.Default
     @Column(name = "verified")
     private boolean verified = false;
 
+    @Builder.Default
     @Column(name = "active")
     private boolean active = true;
 

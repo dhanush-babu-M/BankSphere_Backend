@@ -13,7 +13,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
-import java.util.Base64;
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -94,12 +94,16 @@ public class JwtTokenProvider {
     }
     
     public String getTokenType(String token) {
-        // TODO: implement logic if needed or return default
         return "Bearer";
     }
 
+    /**
+     * Derives HMAC-SHA signing key from the configured secret.
+     * The secret is used as raw UTF-8 bytes — it must be at least 32 characters
+     * (256 bits) for HS256 security compliance.
+     */
     private SecretKey getSigningKey() {
-        byte[] keyBytes = Base64.getDecoder().decode(jwtProperties.getSecret());
+        byte[] keyBytes = jwtProperties.getSecret().getBytes(StandardCharsets.UTF_8);
         return Keys.hmacShaKeyFor(keyBytes);
     }
 }

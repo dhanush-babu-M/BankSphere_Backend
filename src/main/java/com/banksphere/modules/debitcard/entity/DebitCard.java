@@ -59,9 +59,11 @@ public class DebitCard {
     @Column(name = "daily_online_limit")
     private BigDecimal dailyOnlineLimit;
 
+    @Builder.Default
     @Column(name = "contactless_enabled")
     private boolean contactlessEnabled = true;
 
+    @Builder.Default
     @Column(name = "international_enabled")
     private boolean internationalEnabled = false;
 
