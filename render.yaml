@@ -1,0 +1,12 @@
+﻿services:
+  - type: web
+    name: banksphere-backend
+    runtime: docker
+    plan: free
+    region: oregon
+    healthCheckPath: /api/v1/actuator/health
+    envVars:
+      - key: PORT
+        value: 8080
+      - key: SPRING_PROFILES_ACTIVE
+        value: prod
