@@ -1,0 +1,61 @@
+### ===================================================================
+### BankSphere REST API Test File (for VS Code 'REST Client' extension)
+### Install "REST Client" (humao.rest-client) in VS Code to click "Send Request"
+### ===================================================================
+
+@baseUrl = http://localhost:8080/api/v1
+
+### 1. Actuator Health Check
+GET {{baseUrl}}/actuator/health
+Content-Type: application/json
+
+### 2. Swagger OpenAPI Specification
+GET {{baseUrl}}/v3/api-docs
+Content-Type: application/json
+
+### 3. User Login
+# @name loginRequest
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "password": "Password@123"
+}
+
+### Store token from response (automatic with REST Client)
+@authToken = {{loginRequest.response.body.accessToken}}
+
+### 4. Create New Account (requires Bearer token)
+POST {{baseUrl}}/accounts
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "customerId": "d3b07384-d113-467f-a63e-f823297a7e8e",
+  "accountType": "SAVINGS",
+  "currency": "INR",
+  "branchCode": "001",
+  "initialDeposit": 5000.00
+}
+
+### 5. Get Account Balance
+GET {{baseUrl}}/accounts/BSP2026000000001/balance
+Authorization: Bearer {{authToken}}
+
+### 6. Initiate Internal Transfer
+POST {{baseUrl}}/transactions/transfer/internal
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "sourceAccountNumber": "BSP2026000000001",
+  "destinationAccountNumber": "BSP2026000000002",
+  "amount": 500.00,
+  "description": "Payment for services",
+  "narration": "Monthly settlement"
+}
+
+### 7. Calculate Loan EMI
+GET {{baseUrl}}/loans/calculate-emi?principal=100000&rate=12&months=12
+Authorization: Bearer {{authToken}}
